@@ -24,12 +24,15 @@ endif()
 
 message(STATUS $ENV{VCPKG_ROOT})
 
+# IF USE VCPKG IN WIN32
+
 # vcpkg
 set(CMAKE_TOOLCHAIN_FILE $ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake CACHE STRING "")
 set(VCPKG_TARGET_TRIPLET $ENV{VCPKG_DEFAULT_TRIPLET} CACHE STRING "")
-
 # tbb
 set(TBB_DIR $ENV{VCPKG_ROOT}/installed/x64-windows/share/tbb CACHE STRING "")
+
+# IF USE VCPKG IN WIN32
 
 # how to use the `option`
 option(USE_SOMETHING "optional" ON)
