@@ -14,7 +14,20 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} -pthread")
 endif()
 
-if (NOT CMAKE_BUILD_TYPE)
+# Just For my WSL [To link to the standard header files]
+if(NOT WIN32)
+    message(STATUS WSL)
+    set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} 
+    -isystem /usr/include/c++/9 
+    -isystem /usr/include/x86_64-linux-gnu/c++/9 
+    -isystem /usr/include/c++/9/backward 
+    -isystem /usr/lib/gcc/x86_64-linux-gnu/9/include 
+    -isystem /usr/local/include 
+    -isystem /usr/include/x86_64-linux-gnu 
+    -isystem /usr/include")
+endif()
+
+if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 

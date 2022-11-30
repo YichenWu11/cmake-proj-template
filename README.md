@@ -15,7 +15,4 @@
   // Windows[vcpkg]
   vcpkg install tbb:x64-windows
   vcpkg install benchmark:x64-windows
-```
-## ***IF LINUX***
-`-isystem /usr/include/c++/9 -isystem /usr/include/x86_64-linux-gnu/c++/9 -isystem /usr/include/c++/9/backward -isystem /usr/lib/gcc/x86_64-linux-gnu/9/include -isystem /usr/local/include -isystem /usr/include/x86_64-linux-gnu -isystem /usr/include`
-
+``
