@@ -5,26 +5,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
 if(CMAKE_EXPORT_COMPILE_COMMANDS)
     set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
-endif()
-
-if(CMAKE_COMPILER_IS_GNUCXX)
-    set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} -pthread")
-endif()
-
-# Just For my WSL [To link to the standard header files]
-if(NOT WIN32)
-    message(STATUS WSL)
-    set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} 
-    -isystem /usr/include/c++/9 
-    -isystem /usr/include/x86_64-linux-gnu/c++/9 
-    -isystem /usr/include/c++/9/backward 
-    -isystem /usr/lib/gcc/x86_64-linux-gnu/9/include 
-    -isystem /usr/local/include 
-    -isystem /usr/include/x86_64-linux-gnu 
-    -isystem /usr/include")
 endif()
 
 if(NOT CMAKE_BUILD_TYPE)
@@ -38,13 +20,11 @@ endif()
 message(STATUS $ENV{VCPKG_ROOT})
 
 # IF USE VCPKG IN WIN32
-
-# vcpkg
 set(CMAKE_TOOLCHAIN_FILE $ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake CACHE STRING "")
 set(VCPKG_TARGET_TRIPLET $ENV{VCPKG_DEFAULT_TRIPLET} CACHE STRING "")
 # tbb
 set(TBB_DIR $ENV{VCPKG_ROOT}/installed/x64-windows/share/tbb CACHE STRING "")
-
+set(benchmark_DIR $ENV{VCPKG_ROOT}/installed/x64-windows/share/benchmark CACHE STRING "")
 # IF USE VCPKG IN WIN32
 
 # how to use the `option`
@@ -55,7 +35,7 @@ if(USE_SOMETHING)
 endif()
 # how to use the `option`
 
-project(Test_Vcpkg LANGUAGES CXX)
+project(Test_00 LANGUAGES CXX)
 
 file(GLOB_RECURSE srcs CONFIGURE_DEPENDS src/*.cpp include/*.h)
 
@@ -67,8 +47,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC include)
 # target_compile_definitions(${PROJECT_NAME} PUBLIC RT)
 
 # the way to import 3rdparty
+find_package(Threads REQUIRED)
 find_package(TBB CONFIG REQUIRED COMPONENTS tbb)
 find_package(benchmark CONFIG REQUIRED)
 
+target_link_libraries(${PROJECT_NAME} PUBLIC Threads::Threads)
 target_link_libraries(${PROJECT_NAME} PUBLIC benchmark::benchmark benchmark::benchmark_main)
 target_link_libraries(${PROJECT_NAME} PUBLIC TBB::tbb)
