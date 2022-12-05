@@ -1,4 +1,3 @@
-# 语言: None, Cpp, Java, JavaScript, ObjC, Proto, TableGen, TextProto
 Language: Cpp
 # BasedOnStyle:	LLVM
 
@@ -22,7 +21,7 @@ AllowShortBlocksOnASingleLine: true
 
 AllowShortCaseLabelsOnASingleLine: true
 
-AllowShortFunctionsOnASingleLine: None
+AllowShortFunctionsOnASingleLine: true
 
 AllowShortIfStatementsOnASingleLine: true
 
@@ -70,7 +69,7 @@ ColumnLimit: 0
 
 CompactNamespaces: true
 
-ConstructorInitializerAllOnOneLineOrOnePerLine: false
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
 
 ConstructorInitializerIndentWidth: 4
 
