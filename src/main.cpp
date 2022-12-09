@@ -2,8 +2,8 @@
 #include <vector>
 #include <cmath>
 
-#include <benchmark/benchmark.h>
 #include <tbb/parallel_for.h>
+#include <benchmark/benchmark.h>
 
 void BM_FILL_SIN_PARALLEL(benchmark::State& bm) {
     for (auto _ : bm) {
