@@ -94,7 +94,7 @@ KeepEmptyLinesAtTheStartOfBlocks: false
 
 MaxEmptyLinesToKeep: 1
 
-NamespaceIndentation: None
+NamespaceIndentation: All
 
 PointerAlignment: Left
 
