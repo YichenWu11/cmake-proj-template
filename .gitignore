@@ -2,3 +2,5 @@ build
 .vscode
 .VSCodeCounter
 .cache
+
+.idea/
