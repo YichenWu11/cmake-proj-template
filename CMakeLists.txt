@@ -1,60 +1,29 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.16)
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+include(cmake/module.cmake)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
-if(CMAKE_EXPORT_COMPILE_COMMANDS)
-    set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES})
-endif()
+set(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+message(STATUS ${ROOT_DIR})
 
 if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
+    set(CMAKE_BUILD_TYPE Debug)
 endif()
 
-if(MSVC)
-    add_definitions(-DNOMINMAX -D_USE_MATH_DEFINES)
-endif()
-
-message(STATUS $ENV{VCPKG_ROOT})
-
-# IF USE VCPKG IN WIN32
 set(CMAKE_TOOLCHAIN_FILE $ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake CACHE STRING "")
-set(VCPKG_TARGET_TRIPLET $ENV{VCPKG_DEFAULT_TRIPLET} CACHE STRING "")
+set(VCPKG_TARGET_TRIPLET x64-windows CACHE STRING "")
 
-# tbb
-set(TBB_DIR $ENV{VCPKG_ROOT}/installed/x64-windows/share/tbb CACHE STRING "")
-set(BENCHMARK_DIR $ENV{VCPKG_ROOT}/installed/x64-windows/share/benchmark CACHE STRING "")
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# IF USE VCPKG IN WIN32
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/bin)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_LIST_DIR}/bin/Debug)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_LIST_DIR}/bin/Release)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELWITHDEBINFO ${CMAKE_CURRENT_LIST_DIR}/bin/RelWithDebInfo)
 
-# how to use the `option`
-option(USE_SOMETHING "optional" ON)
+project(CMakeTemplate)
 
-if(USE_SOMETHING)
-    message(STATUS "Choose to use something.")
-endif()
+add_definitions(-DUNICODE -D_UNICODE -D_USE_MATH_DEFINES -DNOMINMAX)
 
-# how to use the `option`
-project(Test_00 LANGUAGES CXX)
-
-file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS src/*.cpp)
-file(GLOB_RECURSE HEADER_FILES CONFIGURE_DEPENDS include/*.h)
-
-source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${HEADER_FILES} ${SOURCE_FILES})
-
-add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
-
-target_include_directories(${PROJECT_NAME} PUBLIC include)
-
-# Insert Macro defines to your program
-# target_compile_definitions(${PROJECT_NAME} PUBLIC RT)
-
-# the way to import 3rdparty
-find_package(TBB CONFIG REQUIRED COMPONENTS tbb)
-find_package(benchmark CONFIG REQUIRED)
-
-target_link_libraries(${PROJECT_NAME} PUBLIC benchmark::benchmark benchmark::benchmark_main)
-target_link_libraries(${PROJECT_NAME} PUBLIC TBB::tbb)
+add_subdirectory(source)
